@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   AgroMonitor IoT
+  </title>
+  <link href="/styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <main class="wrap">
+   <header>
+    <div>
+     <p class="eyebrow">
+      AGRICULTURA INTELIGENTE &middot; IoT
+     </p>
+     <h1>
+      AgroMonitor
+     </h1>
+     <p class="muted">
+      Monitoramento distribu&iacute;do da planta&ccedil;&atilde;o
+     </p>
+    </div>
+    <span class="pill" id="connection">
+     Desconectado
+    </span>
+   </header>
+   <section class="panel login" id="login">
+    <h2>
+     Acessar painel
+    </h2>
+    <label>
+     Usu&aacute;rio
+     <input id="username" value="aluno"/>
+    </label>
+    <label>
+     Senha
+     <input id="password" type="password" value="Agro@123"/>
+    </label>
+    <button id="loginBtn">
+     Entrar
+    </button>
+    <p class="error" id="loginError">
+    </p>
+    <small>
+     Credenciais demonstrativas locais. Altere antes de publicar.
+    </small>
+   </section>
+   <section hidden="" id="app">
+    <div class="toolbar">
+     <span class="muted" id="updated">
+      Aguardando dados...
+     </span>
+     <button class="secondary" id="refreshBtn">
+      Atualizar
+     </button>
+     <button class="secondary" id="logoutBtn">
+      Sair
+     </button>
+    </div>
+    <section class="metrics">
+     <article class="metric">
+      <span>
+       Leituras recentes
+      </span>
+      <strong id="totalReadings">
+       0
+      </strong>
+     </article>
+     <article class="metric">
+      <span>
+       Sensores ativos
+      </span>
+      <strong id="activeSensors">
+       0
+      </strong>
+     </article>
+     <article class="metric">
+      <span>
+       Leituras cr&iacute;ticas
+      </span>
+      <strong id="criticalReadings">
+       0
+      </strong>
+     </article>
+    </section>
+    <section class="panel">
+     <div class="section-head">
+      <h2>
+       Sensores
+      </h2>
+      <span class="muted">
+       &Uacute;ltima leitura por sensor
+      </span>
+     </div>
+     <div class="table-wrap">
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Sensor
+         </th>
+         <th>
+          Tipo
+         </th>
+         <th>
+          Valor
+         </th>
+         <th>
+          Status
+         </th>
+         <th>
+          Atualizado
+         </th>
+        </tr>
+       </thead>
+       <tbody id="sensorRows">
+       </tbody>
+      </table>
+     </div>
+    </section>
+    <section class="panel">
+     <div class="section-head">
+      <h2>
+       Alertas recentes
+      </h2>
+     </div>
+     <div class="alerts" id="alerts">
+     </div>
+    </section>
+    <section class="panel">
+     <div class="section-head">
+      <h2>
+       &Uacute;ltimas leituras
+      </h2>
+     </div>
+     <div class="table-wrap">
+      <table>
+       <thead>
+        <tr>
+         <th>
+          Sensor
+         </th>
+         <th>
+          Tipo
+         </th>
+         <th>
+          Valor
+         </th>
+         <th>
+          Data
+         </th>
+        </tr>
+       </thead>
+       <tbody id="readingRows">
+       </tbody>
+      </table>
+     </div>
+    </section>
+   </section>
+   <footer>
+    AgroMonitor IoT &middot; Prot&oacute;tipo acad&ecirc;mico USJT
+   </footer>
+  </main>
+  <script src="/app.js">
+  </script>
+ </body>
+</html>
