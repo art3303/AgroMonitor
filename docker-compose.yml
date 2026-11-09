@@ -1,0 +1,71 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - agro-net
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      - agro-net
+
+  processing-service:
+    build: ./processing-service
+    environment:
+      MONGO_URI: mongodb://mongo:27017/agromonitor
+      SERVER_PORT: 8082
+    depends_on:
+      - mongo
+    networks:
+      - agro-net
+
+  ingestion-service:
+    build: ./ingestion-service
+    environment:
+      MQTT_BROKER: tcp://mosquitto:1883
+      PROCESSING_URL: http://processing-service:8082
+    depends_on:
+      - mosquitto
+      - processing-service
+    networks:
+      - agro-net
+
+  api-service:
+    build: ./api-service
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_URI: mongodb://mongo:27017/agromonitor
+      JWT_SECRET: ${JWT_SECRET:-CHANGE_ME_TO_A_RANDOM_SECRET_WITH_AT_LEAST_32_CHARACTERS}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES:-120}
+      DEMO_USERNAME: ${DEMO_USERNAME:-aluno}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-Agro@123}
+    depends_on:
+      - mongo
+    networks:
+      - agro-net
+
+  sensor-simulator:
+    build: ./sensor-simulator
+    environment:
+      MQTT_BROKER: tcp://mosquitto:1883
+      SIMULATOR_INTERVAL_MS: ${SIMULATOR_INTERVAL_MS:-3000}
+    depends_on:
+      - mosquitto
+    networks:
+      - agro-net
+
+volumes:
+  mongo_data:
+
+networks:
+  agro-net:
+    driver: bridge
